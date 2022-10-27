@@ -11,6 +11,7 @@ import com.itheima.reggie.service.DishFlavorService;
 import com.itheima.reggie.service.DishService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,8 @@ import java.util.stream.Collectors;
 public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements DishService {
     @Autowired
     DishFlavorService dishFlavorService;
+    @Autowired
+    RedisTemplate redisTemplate;
     @Override
     @Transactional
     public void saveWithFlavor(DishDto dishDto) {
@@ -50,6 +53,8 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     public void updateWithFlavor(DishDto dishDto) {
         //修改基本信息
         this.updateById(dishDto);
+
+
 
         //删除口味
         LambdaQueryWrapper<DishFlavor> queryWrapper=new LambdaQueryWrapper<>();
